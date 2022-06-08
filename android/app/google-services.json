@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "5695856579",
+    "project_id": "eder-dw-7-job-timer",
+    "storage_bucket": "eder-dw-7-job-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5695856579:android:b476ac5058cd1ab72c2776",
+        "android_client_info": {
+          "package_name": "br.com.academiadoflutter.job_timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5695856579-kfnflkpb9ijt54cpjk6qtv67m6ebup3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKHiIs1M_JJnmWVgI2SdU6cYJ5dwWKaNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5695856579-kfnflkpb9ijt54cpjk6qtv67m6ebup3k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
