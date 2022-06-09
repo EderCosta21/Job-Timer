@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:job_timer/app/entities/project.dart';
 import 'package:job_timer/app/entities/project_status.dart';
+import 'package:job_timer/app/modules/home/widgets/header_projects_menu.dart';
 import '../../core/database/database.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,29 +11,40 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
-        ),
-        body: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                final db = Modular.get<Database>();
-
-                final connection = await db.openConnection();
-
-                connection.writeTxn((isar) {
-                  var project = Project();
-
-                  project.name = 'Projeto Teste';
-                  project.status = ProjectStatus.finalizado;
-
-                  return connection.projects.put(project);
-                });
-              },
-              child: Text('Cadastrar'),
-            ),
-          ],
+        drawer: Drawer(
+            child: SafeArea(
+          child: ListTile(
+            title: Text('Sair'),
+          ),
+        )),
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: Text('Projetos'),
+                expandedHeight: 100,
+                toolbarHeight: 100,
+                centerTitle: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(15),
+                  ),
+                ),
+              ),
+              SliverPersistentHeader(
+                delegate: HeaderProjectsMenu(),
+                pinned: true,
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  Container(
+                    color: Colors.blue,
+                    height: 200,
+                  ),
+                ]),
+              )
+            ],
+          ),
         ));
   }
 }
