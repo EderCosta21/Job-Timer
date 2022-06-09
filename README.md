@@ -4,7 +4,12 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Este é um projeto que contem os seguintes itens
+Utilização de Bloc flutter
+Utilização de Azuka para alerts 
+Utilização de Firebase para login
+Utilização de Isar database para Banco de dados local
+
 
 A few resources to get you started if this is your first Flutter project:
 
