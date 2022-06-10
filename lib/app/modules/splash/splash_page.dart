@@ -7,7 +7,7 @@ import 'package:job_timer/app/core/ui/job_timer_icons.dart';
 import 'package:job_timer/app/services/auth/auth_service.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
