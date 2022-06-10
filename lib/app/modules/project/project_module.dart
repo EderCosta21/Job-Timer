@@ -3,7 +3,6 @@ import 'package:job_timer/app/modules/project/register/project_register_module.d
 
 class ProjectModule extends Module {
   @override
-  // TODO: implement routes
   List<ModularRoute> get routes => [
         ModuleRoute(
           '/register',

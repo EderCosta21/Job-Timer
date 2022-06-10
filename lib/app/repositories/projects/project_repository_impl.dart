@@ -17,6 +17,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<void> register(Project project) async {
     try {
       final connection = await _database.openConnection();
+      // connection.clearSync();
 
       await connection.writeTxn((isar) {
         return isar.projects.put(project);
