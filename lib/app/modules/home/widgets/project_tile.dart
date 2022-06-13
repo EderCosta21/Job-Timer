@@ -19,11 +19,14 @@ class ProjectTile extends StatelessWidget {
           width: 4,
         ),
       ),
-      //   child: Column(
-      //       // children: [
-      //       //   _ProjectName(projectModel: projectModel),
-      //       // ],
-      //       ),
+      child: Column(
+        children: [
+          _ProjectName(projectModel: projectModel),
+          Expanded(
+            child: _ProjectProgress(projectModel: projectModel),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -34,11 +37,57 @@ class _ProjectName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(projectModel.name),
-        Icon(JobTimerIcons.angle_double_right),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(projectModel.name),
+          Icon(
+            JobTimerIcons.angle_double_right,
+            color: Theme.of(context).primaryColor,
+            size: 20,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProjectProgress extends StatelessWidget {
+  final ProjectModel projectModel;
+  const _ProjectProgress({Key? key, required this.projectModel})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final totalTask = projectModel.tasks.fold<int>(
+        0, (previousValue, element) => previousValue += element.duration);
+    var percent = 0.0;
+
+    if (totalTask > 0) {
+      percent = totalTask / projectModel.estimative;
+    }
+
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey[300]!,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(children: [
+        Expanded(
+          child: LinearProgressIndicator(
+            value: percent,
+            backgroundColor: Colors.grey[400]!,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text('${projectModel.estimative}H'),
+        )
+      ]),
     );
   }
 }
