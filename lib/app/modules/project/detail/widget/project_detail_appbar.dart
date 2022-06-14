@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:job_timer/app/entities/project_status.dart';
+import 'package:job_timer/app/view_models/project_model.dart';
 
 class ProjectDetailAppbar extends SliverAppBar {
-  ProjectDetailAppbar({super.key})
+  ProjectDetailAppbar({required ProjectModel projectModel, super.key})
       : super(
           expandedHeight: 100,
           pinned: true,
           toolbarHeight: 100,
-          title: Text('Projeto x'),
+          title: Text(projectModel.name),
           centerTitle: true,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
@@ -32,8 +34,13 @@ class ProjectDetailAppbar extends SliverAppBar {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(' 10 task'),
-                          _NewTasks(),
+                          Text('${projectModel.tasks.length} tasks '),
+                          Visibility(
+                            visible:
+                                projectModel.status != ProjectStatus.finalizado,
+                            replacement: const Text('Projeto Finalizado'),
+                            child: _NewTasks(projectModel: projectModel),
+                          ),
                         ],
                       ),
                     ),
@@ -46,7 +53,8 @@ class ProjectDetailAppbar extends SliverAppBar {
 }
 
 class _NewTasks extends StatelessWidget {
-  const _NewTasks({Key? key}) : super(key: key);
+  const _NewTasks({Key? key, required ProjectModel projectModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
