@@ -24,7 +24,20 @@ class ProjectDetailController extends Cubit<ProjectDetailState> {
   void updateProject() async {
     final project = await _projectService.findById(state.projectModel!.id!);
     emit(
-      state.copyWith(projectModel: project),
+      state.copyWith(
+          projectModel: project, status: ProjectDetailStatus.complete),
     );
+  }
+
+  Future<void> finishProject() async {
+    try {
+      emit(state.copyWith(status: ProjectDetailStatus.loading));
+
+      final projectId = state.projectModel!.id!;
+      await _projectService.finishProject(projectId);
+      updateProject();
+    } on Exception {
+      emit(state.copyWith(status: ProjectDetailStatus.failure));
+    }
   }
 }

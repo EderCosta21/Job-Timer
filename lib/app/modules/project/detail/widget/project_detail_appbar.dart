@@ -1,3 +1,4 @@
+import 'package:asuka/snackbars/asuka_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:job_timer/app/entities/project_status.dart';
@@ -63,8 +64,18 @@ class _NewTasks extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        await Modular.to.pushNamed('/project/task', arguments: projectModel);
-        Modular.get<ProjectDetailController>().updateProject();
+        final total = projectModel.estimative;
+        final totalTask = projectModel.tasks.fold<int>(0, (totalValue, task) {
+          return totalValue += task.duration;
+        });
+        final _restante = (total - totalTask);
+
+        if (_restante <= 0) {
+          AsukaSnackbar.alert('Limite de horas do projeto excedido').show();
+        } else {
+          await Modular.to.pushNamed('/project/task', arguments: projectModel);
+          Modular.get<ProjectDetailController>().updateProject();
+        }
       },
       child: Row(
         children: [
