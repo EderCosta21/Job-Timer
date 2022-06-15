@@ -21,6 +21,7 @@ class ProjectModel {
     project.tasks.loadSync();
 
     return ProjectModel(
+      id: project.id,
       name: project.name,
       estimative: project.estimate,
       status: project.status,

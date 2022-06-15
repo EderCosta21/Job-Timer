@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:job_timer/app/entities/project_status.dart';
+import 'package:job_timer/app/modules/project/detail/controller/project_detail_controller.dart';
 import 'package:job_timer/app/view_models/project_model.dart';
 
 class ProjectDetailAppbar extends SliverAppBar {
@@ -53,26 +55,33 @@ class ProjectDetailAppbar extends SliverAppBar {
 }
 
 class _NewTasks extends StatelessWidget {
-  const _NewTasks({Key? key, required ProjectModel projectModel})
-      : super(key: key);
+  final ProjectModel projectModel;
+
+  const _NewTasks({Key? key, required this.projectModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: CircleAvatar(
-            backgroundColor: Theme.of(context).primaryColor,
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+    return InkWell(
+      onTap: () async {
+        await Modular.to.pushNamed('/project/task', arguments: projectModel);
+        Modular.get<ProjectDetailController>().updateProject();
+      },
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: CircleAvatar(
+              backgroundColor: Theme.of(context).primaryColor,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
           ),
-        ),
-        Text('Adicionar Task'),
-      ],
+          Text('Adicionar Task'),
+        ],
+      ),
     );
   }
 }

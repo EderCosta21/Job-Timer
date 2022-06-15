@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:isar/isar.dart';
 import 'package:job_timer/app/entities/project.dart';
 import 'package:job_timer/app/entities/project_status.dart';
+import 'package:job_timer/app/entities/project_task.dart';
 
 import '../../core/database/database.dart';
 import '../../core/excepitions/failure.dart';
@@ -17,7 +18,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<void> register(Project project) async {
     try {
       final connection = await _database.openConnection();
-      // connection.clearSync();
 
       await connection.writeTxn((isar) {
         return isar.projects.put(project);
@@ -37,5 +37,28 @@ class ProjectRepositoryImpl implements ProjectRepository {
         await connection.projects.filter().statusEqualTo(status).findAll();
 
     return projects;
+  }
+
+  @override
+  Future<Project> addTask(int projectId, ProjectTask task) async {
+    final connection = await _database.openConnection();
+    final project = await findById(projectId);
+
+    project.tasks.add(task);
+
+    await connection.writeTxn((isar) => project.tasks.save());
+    return project;
+  }
+
+  @override
+  Future<Project> findById(int projectId) async {
+    final connection = await _database.openConnection();
+
+    final project = await connection.projects.get(projectId);
+
+    if (project == null) {
+      throw Failure(message: 'Projeto não encontrado');
+    }
+    return project;
   }
 }
